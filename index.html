@@ -3,26 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kyliane Chaperon — conception d'applications</title>
-<meta name="description" content="Portfolio de Kyliane Chaperon, étudiant en 2e année d'école d'informatique, passé par un bac pro assistant en architecture.">
+<title>Kyliane Chaperon</title>
+<meta name="description" content="Kyliane Chaperon, étudiant en 2e année d'école d'informatique. Je conçois des applications pour les métiers du bâtiment.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400;0,500;0,600;1,400&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = {
     theme: {
       extend: {
         colors: {
-          encre:   '#0E1216',
-          surface: '#141A20',
-          trait:   '#263038',
-          craie:   '#E7E4DC',
-          gris:    '#8B959D',
-          ocre:    '#D9A441'
+          papier: '#EFEEE9',
+          encre:  '#1A1A17',
+          bleu:   '#2E3BCC'
         },
         fontFamily: {
-          sans: ['Archivo', 'system-ui', 'sans-serif']
+          sans:  ['"Familjen Grotesk"', 'system-ui', 'sans-serif'],
+          serif: ['Newsreader', 'Georgia', 'serif']
         }
       }
     }
@@ -32,354 +30,287 @@
   html { scroll-behavior: smooth; }
   body { -webkit-font-smoothing: antialiased; }
 
-  /* Papier millimétré, seulement derrière l'en-tête */
-  .calque-grille {
-    background-image:
-      linear-gradient(to right, rgba(231,228,220,.045) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(231,228,220,.045) 1px, transparent 1px);
-    background-size: 56px 56px;
-    mask-image: linear-gradient(to bottom, #000 0%, transparent 85%);
-    -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 85%);
-  }
+  /* Newsreader : réglage optique pour les grandes tailles */
+  .titre { font-variation-settings: 'opsz' 60; letter-spacing: -.02em; }
 
-  /* Hachures d'architecte pour la fiche d'un projet */
-  .hachure {
-    background-image: repeating-linear-gradient(
-      45deg, rgba(217,164,65,.14) 0 1px, transparent 1px 7px
-    );
+  /* Soulignement qui se dessine au survol, comme un trait de stylo */
+  .lien-souligne {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size .35s cubic-bezier(.2,.7,.3,1);
   }
+  .lien-souligne:hover, .lien-souligne:focus-visible { background-size: 100% 1px; }
 
-  :focus-visible {
-    outline: 2px solid #D9A441;
-    outline-offset: 3px;
-    border-radius: 2px;
-  }
+  /* Les lignes de projet : le titre glisse un peu quand on s'en approche */
+  .ligne-projet { transition: background-color .25s ease; }
+  .ligne-projet:hover { background-color: rgba(46,59,204,.045); }
+  .ligne-projet:hover .fleche { transform: translateX(4px); }
+  .fleche { transition: transform .25s ease; }
 
-  /* Une seule séquence d'apparition, au chargement */
-  .lever { opacity: 0; transform: translateY(12px); animation: lever .7s cubic-bezier(.2,.7,.3,1) forwards; }
+  :focus-visible { outline: 2px solid #2E3BCC; outline-offset: 4px; border-radius: 2px; }
+
+  .lever { opacity: 0; transform: translateY(10px); animation: lever .8s cubic-bezier(.2,.7,.3,1) forwards; }
   @keyframes lever { to { opacity: 1; transform: none; } }
+
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     .lever { animation: none; opacity: 1; transform: none; }
+    .lien-souligne, .ligne-projet, .fleche { transition: none; }
   }
 </style>
 </head>
 
-<body class="bg-encre text-craie font-sans antialiased selection:bg-ocre selection:text-encre">
+<body class="bg-papier text-encre font-sans selection:bg-bleu selection:text-papier">
 
-<a href="#projets" class="sr-only focus:not-sr-only focus:absolute focus:m-4 focus:bg-ocre focus:text-encre focus:px-4 focus:py-2">Aller aux projets</a>
+<a href="#travaux" class="sr-only focus:not-sr-only focus:absolute focus:m-4 focus:bg-bleu focus:text-papier focus:px-4 focus:py-2">Aller aux projets</a>
 
-<!-- ─────────────── EN-TÊTE ─────────────── -->
-<header class="relative overflow-hidden border-b border-trait">
-  <div class="calque-grille absolute inset-0 pointer-events-none" aria-hidden="true"></div>
+<div class="max-w-2xl mx-auto px-6">
 
-  <nav class="relative max-w-5xl mx-auto px-6 pt-8 flex items-center justify-between text-sm text-gris">
-    <span class="text-craie font-medium">KC</span>
-    <ul class="flex gap-6">
-      <li><a href="#parcours" class="hover:text-ocre transition-colors">Parcours</a></li>
-      <li><a href="#projets" class="hover:text-ocre transition-colors">Projets</a></li>
-      <li><a href="#contact" class="hover:text-ocre transition-colors">Contact</a></li>
-    </ul>
-  </nav>
+  <!-- ─────────── EN-TÊTE ─────────── -->
+  <header class="pt-10 pb-24 md:pt-14 md:pb-32">
 
-  <div class="relative max-w-5xl mx-auto px-6 pt-24 pb-28 md:pt-32 md:pb-36">
-    <p class="lever text-gris text-sm mb-6" style="animation-delay:.05s">
-      Étudiant en 2<sup>e</sup> année d'école d'informatique — Nantes
+    <nav class="flex items-center justify-between text-[15px] mb-24 md:mb-32">
+      <span class="font-medium">Kyliane Chaperon</span>
+      <span class="flex items-center gap-2 text-encre/60">
+        <span class="w-[7px] h-[7px] rounded-full bg-bleu" aria-hidden="true"></span>
+        Cherche une alternance
+      </span>
+    </nav>
+
+    <p class="lever font-serif italic text-xl text-encre/55 mb-5" style="animation-delay:.05s">
+      Bonjour —
     </p>
 
-    <h1 class="lever text-[2.75rem] leading-[1.05] sm:text-6xl md:text-7xl font-semibold tracking-tight"
+    <h1 class="lever titre font-serif font-light text-4xl sm:text-5xl md:text-[3.4rem] leading-[1.15] max-w-[19ch]"
         style="animation-delay:.15s">
-      Kyliane Chaperon
+      Je dessinais des bâtiments, maintenant je construis des applications.
     </h1>
 
-    <!-- Ligne de cote : le geste emprunté au dessin d'architecte -->
-    <div class="lever mt-7 max-w-xl" style="animation-delay:.3s" aria-hidden="true">
-      <svg viewBox="0 0 520 28" class="w-full h-7 text-ocre" fill="none" stroke="currentColor" stroke-width="1">
-        <path d="M2 4v20M518 4v20"/>
-        <path d="M2 14h516"/>
-        <path d="M10 10l-8 4 8 4M510 10l8 4-8 4" stroke-linejoin="round"/>
-      </svg>
+    <div class="lever mt-9 space-y-5 text-[1.0625rem] leading-[1.75] text-encre/80 max-w-[60ch]"
+         style="animation-delay:.3s">
+      <p>
+        J'ai 20 ans et je suis en deuxième année d'école d'informatique à Nantes. Avant ça,
+        j'ai passé trois ans en bac pro assistant en architecture, à tracer des plans et à
+        monter des dossiers de permis de construire.
+      </p>
+      <p>
+        Je n'ai pas tout à fait quitté ce monde-là. Les applications que je fabrique s'adressent
+        presque toujours à des gens qui travaillent sur un chantier ou dans une agence — parce que
+        je sais à quoi ressemble leur journée, et parce que personne ne fait de logiciel correct
+        pour eux.
+      </p>
     </div>
-    <p class="lever max-w-xl text-sm text-ocre mt-1" style="animation-delay:.3s">
-      2022 – 2027 · du plan de bâtiment au plan d'application
-    </p>
 
-    <p class="lever mt-10 max-w-[58ch] text-lg leading-relaxed text-gris" style="animation-delay:.45s">
-      J'ai appris à concevoir avant d'apprendre à coder. Trois ans de bac pro assistant
-      en architecture m'ont donné le réflexe de dessiner un projet en entier — usages, contraintes,
-      circulation — avant d'en poser la première ligne. Je conçois aujourd'hui des applications
-      avec la même méthode.
-    </p>
-
-    <div class="lever mt-10 flex flex-wrap items-center gap-4" style="animation-delay:.6s">
-      <a href="#projets"
-         class="bg-ocre text-encre px-6 py-3 font-medium hover:bg-craie transition-colors">
-        Voir les quatre projets
+    <div class="lever mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 text-[15px]" style="animation-delay:.45s">
+      <a href="#travaux" class="bg-encre text-papier px-5 py-2.5 hover:bg-bleu transition-colors">
+        Ce que j'ai fabriqué
       </a>
-      <a href="mailto:kyliane.chaperon@proton.me"
-         class="border border-trait px-6 py-3 text-gris hover:border-ocre hover:text-craie transition-colors">
-        Me contacter
-      </a>
-    </div>
-  </div>
-</header>
-
-<main class="max-w-5xl mx-auto px-6">
-
-  <!-- ─────────────── PARCOURS ─────────────── -->
-  <section id="parcours" class="py-24 md:py-32 border-b border-trait scroll-mt-12">
-    <h2 class="text-3xl md:text-4xl font-semibold tracking-tight mb-4">Parcours</h2>
-    <p class="text-gris max-w-[58ch] mb-16">
-      Une bifurcation assumée : le bâtiment m'a formé au dessin technique et à la lecture d'un
-      besoin client, l'informatique m'a donné les outils pour livrer.
-    </p>
-
-    <ol class="relative border-l border-trait ml-2">
-
-      <li class="relative pl-8 pb-14">
-        <span class="absolute -left-[5px] top-2 w-[9px] h-[9px] rounded-full bg-trait" aria-hidden="true"></span>
-        <p class="text-ocre text-sm mb-2">2022 — 2025</p>
-        <h3 class="text-xl font-medium">Bac pro technicien d'études du bâtiment, option assistant en architecture</h3>
-        <p class="text-gris text-sm mt-1">Lycée Gustave-Eiffel, Nantes — obtenu avec mention bien</p>
-        <p class="text-gris mt-4 max-w-[58ch] leading-relaxed">
-          Dessin sur AutoCAD et Revit, relevés sur site, montage de dossiers de permis de construire.
-          C'est là que j'ai pris l'habitude de vérifier une cote deux fois plutôt qu'une, et de
-          considérer qu'un plan illisible est un plan raté.
-        </p>
-      </li>
-
-      <li class="relative pl-8 pb-14">
-        <span class="absolute -left-[5px] top-2 w-[9px] h-[9px] rounded-full bg-trait" aria-hidden="true"></span>
-        <p class="text-ocre text-sm mb-2">Printemps 2024</p>
-        <h3 class="text-xl font-medium">Stage en agence d'architecture</h3>
-        <p class="text-gris text-sm mt-1">Atelier Rive-Nord, Saint-Nazaire — 8 semaines</p>
-        <p class="text-gris mt-4 max-w-[58ch] leading-relaxed">
-          Dix personnes, aucun outil de suivi commun, des plans échangés par e-mail avec des noms
-          de fichiers en « v2_final_OK ». J'ai écrit un premier script Python pour renommer et
-          classer les livrables. C'est le stage qui m'a fait basculer.
-        </p>
-      </li>
-
-      <li class="relative pl-8 pb-14">
-        <span class="absolute -left-[5px] top-2 w-[9px] h-[9px] rounded-full bg-trait" aria-hidden="true"></span>
-        <p class="text-ocre text-sm mb-2">2025 — 2026</p>
-        <h3 class="text-xl font-medium">1<sup>re</sup> année, cycle informatique</h3>
-        <p class="text-gris text-sm mt-1">École d'informatique, Nantes</p>
-        <p class="text-gris mt-4 max-w-[58ch] leading-relaxed">
-          Algorithmique, C, Java, bases de données relationnelles, réseaux. Année de rattrapage
-          technique : j'arrivais sans aucune base en programmation et j'ai passé mes week-ends
-          à combler l'écart.
-        </p>
-      </li>
-
-      <li class="relative pl-8">
-        <span class="absolute -left-[5px] top-2 w-[9px] h-[9px] rounded-full bg-ocre" aria-hidden="true"></span>
-        <p class="text-ocre text-sm mb-2">Depuis septembre 2026</p>
-        <h3 class="text-xl font-medium">2<sup>e</sup> année — conception d'applications</h3>
-        <p class="text-gris text-sm mt-1">En recherche d'une alternance pour la rentrée 2027</p>
-        <p class="text-gris mt-4 max-w-[58ch] leading-relaxed">
-          Développement web et mobile, architecture logicielle, UX. Je concentre mes projets
-          personnels sur les métiers que je connais déjà : bâtiment, chantier, agence.
-        </p>
-      </li>
-
-    </ol>
-  </section>
-
-  <!-- ─────────────── PROJETS ─────────────── -->
-  <section id="projets" class="py-24 md:py-32 border-b border-trait scroll-mt-12">
-    <h2 class="text-3xl md:text-4xl font-semibold tracking-tight mb-4">Quatre projets</h2>
-    <p class="text-gris max-w-[58ch] mb-16">
-      Chacun part d'un problème que j'ai vu de mes yeux en agence ou sur un chantier.
-    </p>
-
-    <div class="space-y-10">
-
-      <!-- Projet 1 -->
-      <article class="bg-surface border border-trait">
-        <div class="hachure h-2" aria-hidden="true"></div>
-        <div class="p-8 md:p-10 grid md:grid-cols-3 gap-8">
-          <div class="md:col-span-2">
-            <h3 class="text-2xl font-medium">Calepin</h3>
-            <p class="text-ocre text-sm mt-1">Application mobile de relevé de chantier</p>
-            <p class="text-gris mt-5 leading-relaxed max-w-[58ch]">
-              Sur un relevé, on croque un mur au crayon puis on ressaisit tout au bureau le soir.
-              Calepin supprime la ressaisie : on dessine au doigt, on ajoute les cotes, et
-              l'application régularise le croquis en un plan propre exportable en PDF ou DXF.
-            </p>
-            <p class="text-gris mt-4 leading-relaxed max-w-[58ch]">
-              Le morceau difficile a été la reconnaissance des traits : détecter qu'un segment
-              tremblé veut dire « mur droit » sans frustrer l'utilisateur quand il voulait
-              vraiment une courbe.
-            </p>
-          </div>
-          <dl class="text-sm border-t md:border-t-0 md:border-l border-trait pt-6 md:pt-0 md:pl-8 space-y-4">
-            <div><dt class="text-gris">Année</dt><dd class="mt-0.5">2026</dd></div>
-            <div><dt class="text-gris">Rôle</dt><dd class="mt-0.5">Conception et développement, seul</dd></div>
-            <div><dt class="text-gris">Outils</dt><dd class="mt-0.5">React Native, Expo, SQLite, Figma</dd></div>
-            <div><dt class="text-gris">État</dt><dd class="mt-0.5 text-ocre">Testé par deux dessinateurs</dd></div>
-          </dl>
-        </div>
-      </article>
-
-      <!-- Projet 2 -->
-      <article class="bg-surface border border-trait">
-        <div class="hachure h-2" aria-hidden="true"></div>
-        <div class="p-8 md:p-10 grid md:grid-cols-3 gap-8">
-          <div class="md:col-span-2">
-            <h3 class="text-2xl font-medium">Atelier</h3>
-            <p class="text-ocre text-sm mt-1">Suivi de projets pour petites agences d'architecture</p>
-            <p class="text-gris mt-5 leading-relaxed max-w-[58ch]">
-              Un outil de suivi calqué sur les phases réelles d'un projet — esquisse, APS, APD,
-              permis, DCE, chantier — plutôt que sur des colonnes « à faire / en cours ».
-              Chaque phase porte ses livrables, ses échéances et sa version courante.
-            </p>
-            <p class="text-gris mt-4 leading-relaxed max-w-[58ch]">
-              J'ai mené six entretiens avant d'écrire la moindre ligne. La demande principale
-              n'était pas la fonctionnalité : c'était que rien ne se perde entre deux versions
-              d'un même plan.
-            </p>
-          </div>
-          <dl class="text-sm border-t md:border-t-0 md:border-l border-trait pt-6 md:pt-0 md:pl-8 space-y-4">
-            <div><dt class="text-gris">Année</dt><dd class="mt-0.5">2026</dd></div>
-            <div><dt class="text-gris">Rôle</dt><dd class="mt-0.5">Conception fonctionnelle et back-end, équipe de trois</dd></div>
-            <div><dt class="text-gris">Outils</dt><dd class="mt-0.5">Laravel, PostgreSQL, Vue 3, Docker</dd></div>
-            <div><dt class="text-gris">État</dt><dd class="mt-0.5 text-ocre">Projet de fin de semestre</dd></div>
-          </dl>
-        </div>
-      </article>
-
-      <!-- Projet 3 -->
-      <article class="bg-surface border border-trait">
-        <div class="hachure h-2" aria-hidden="true"></div>
-        <div class="p-8 md:p-10 grid md:grid-cols-3 gap-8">
-          <div class="md:col-span-2">
-            <h3 class="text-2xl font-medium">Repère</h3>
-            <p class="text-ocre text-sm mt-1">Navigation intérieure pour bâtiments publics</p>
-            <p class="text-gris mt-5 leading-relaxed max-w-[58ch]">
-              Une application web qui prend un plan d'étage et en déduit un itinéraire pas à pas
-              jusqu'à une salle. Pensée d'abord pour les personnes qui lisent mal un plan :
-              pas de vue satellite, des repères visuels concrets — « après la cage d'escalier
-              vitrée, à droite ».
-            </p>
-            <p class="text-gris mt-4 leading-relaxed max-w-[58ch]">
-              J'ai implémenté A* sur un graphe extrait du plan SVG, et ajouté un mode contraste
-              renforcé après un test avec un étudiant malvoyant de ma promo.
-            </p>
-          </div>
-          <dl class="text-sm border-t md:border-t-0 md:border-l border-trait pt-6 md:pt-0 md:pl-8 space-y-4">
-            <div><dt class="text-gris">Année</dt><dd class="mt-0.5">2026</dd></div>
-            <div><dt class="text-gris">Rôle</dt><dd class="mt-0.5">Développement front-end et algorithmique</dd></div>
-            <div><dt class="text-gris">Outils</dt><dd class="mt-0.5">TypeScript, SVG, D3, Vite</dd></div>
-            <div><dt class="text-gris">État</dt><dd class="mt-0.5 text-ocre">Prototype présenté en jury</dd></div>
-          </dl>
-        </div>
-      </article>
-
-      <!-- Projet 4 -->
-      <article class="bg-surface border border-trait">
-        <div class="hachure h-2" aria-hidden="true"></div>
-        <div class="p-8 md:p-10 grid md:grid-cols-3 gap-8">
-          <div class="md:col-span-2">
-            <h3 class="text-2xl font-medium">Trame</h3>
-            <p class="text-ocre text-sm mt-1">Estimation de coût de gros œuvre</p>
-            <p class="text-gris mt-5 leading-relaxed max-w-[58ch]">
-              On saisit les surfaces et les matériaux d'un projet, l'application renvoie une
-              fourchette de coût et la décompose par poste. Les chiffres viennent d'un jeu de
-              données public de prix de la construction, mis à jour chaque trimestre.
-            </p>
-            <p class="text-gris mt-4 leading-relaxed max-w-[58ch]">
-              Le vrai sujet était la confiance : afficher une fourchette et ses hypothèses
-              plutôt qu'un nombre unique qui aurait l'air d'un devis.
-            </p>
-          </div>
-          <dl class="text-sm border-t md:border-t-0 md:border-l border-trait pt-6 md:pt-0 md:pl-8 space-y-4">
-            <div><dt class="text-gris">Année</dt><dd class="mt-0.5">2025</dd></div>
-            <div><dt class="text-gris">Rôle</dt><dd class="mt-0.5">Conception et développement, seul</dd></div>
-            <div><dt class="text-gris">Outils</dt><dd class="mt-0.5">Python, FastAPI, Pandas, Chart.js</dd></div>
-            <div><dt class="text-gris">État</dt><dd class="mt-0.5 text-ocre">En ligne, code ouvert</dd></div>
-          </dl>
-        </div>
-      </article>
-
-    </div>
-  </section>
-
-  <!-- ─────────────── COMPÉTENCES ─────────────── -->
-  <section class="py-24 md:py-32 border-b border-trait">
-    <h2 class="text-3xl md:text-4xl font-semibold tracking-tight mb-16">Ce que je sais faire</h2>
-
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
-      <div>
-        <h3 class="font-medium mb-4">Développement</h3>
-        <ul class="text-gris space-y-2 text-sm">
-          <li>TypeScript, JavaScript</li>
-          <li>Python, Java, C</li>
-          <li>PHP / Laravel</li>
-          <li>Vue, React, React Native</li>
-        </ul>
-      </div>
-      <div>
-        <h3 class="font-medium mb-4">Données</h3>
-        <ul class="text-gris space-y-2 text-sm">
-          <li>PostgreSQL, SQLite</li>
-          <li>Modélisation, SQL</li>
-          <li>Pandas</li>
-          <li>API REST</li>
-        </ul>
-      </div>
-      <div>
-        <h3 class="font-medium mb-4">Conception</h3>
-        <ul class="text-gris space-y-2 text-sm">
-          <li>Entretiens utilisateurs</li>
-          <li>Maquettage Figma</li>
-          <li>UML, diagrammes de flux</li>
-          <li>Accessibilité RGAA</li>
-        </ul>
-      </div>
-      <div>
-        <h3 class="font-medium mb-4">Héritage bâtiment</h3>
-        <ul class="text-gris space-y-2 text-sm">
-          <li>AutoCAD, Revit</li>
-          <li>Lecture de plans</li>
-          <li>Relevé et cotation</li>
-          <li>Dossiers d'urbanisme</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─────────────── CONTACT ─────────────── -->
-  <section id="contact" class="py-24 md:py-32 scroll-mt-12">
-    <h2 class="text-3xl md:text-4xl font-semibold tracking-tight mb-4">
-      Je cherche une alternance pour septembre 2027
-    </h2>
-    <p class="text-gris max-w-[58ch] mb-10 leading-relaxed">
-      Développement d'applications métier, de préférence dans la construction, l'immobilier
-      ou l'industrie. Écrivez-moi, je réponds sous deux jours.
-    </p>
-
-    <div class="flex flex-wrap gap-x-10 gap-y-4">
-      <a href="mailto:kyliane.chaperon@proton.me" class="text-lg hover:text-ocre transition-colors">
+      <a href="mailto:kyliane.chaperon@proton.me" class="lien-souligne text-bleu">
         kyliane.chaperon@proton.me
       </a>
-      <a href="https://github.com/kchaperon" class="text-lg text-gris hover:text-ocre transition-colors">
-        github.com/kchaperon
-      </a>
-      <a href="https://www.linkedin.com/in/kyliane-chaperon" class="text-lg text-gris hover:text-ocre transition-colors">
-        linkedin.com/in/kyliane-chaperon
-      </a>
+    </div>
+  </header>
+
+  <hr class="border-encre/10">
+
+  <!-- ─────────── PARCOURS ─────────── -->
+  <section class="py-20 md:py-28">
+    <h2 class="font-serif italic text-2xl text-encre/55 mb-12">Comment j'en suis arrivé là</h2>
+
+    <div class="space-y-12">
+
+      <div class="grid sm:grid-cols-[5.5rem_1fr] gap-2 sm:gap-8">
+        <p class="text-[15px] text-encre/45 pt-1">2022–2025</p>
+        <div>
+          <h3 class="font-medium text-lg">Bac pro assistant en architecture</h3>
+          <p class="mt-2 leading-[1.75] text-encre/75">
+            Lycée Gustave-Eiffel. J'y ai appris AutoCAD, Revit, le relevé sur site et la cotation.
+            Surtout, j'y ai appris qu'un plan que personne ne comprend est un plan raté — ce qui
+            s'applique assez bien au code.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid sm:grid-cols-[5.5rem_1fr] gap-2 sm:gap-8">
+        <p class="text-[15px] text-encre/45 pt-1">2024</p>
+        <div>
+          <h3 class="font-medium text-lg">Huit semaines en agence, et un déclic</h3>
+          <p class="mt-2 leading-[1.75] text-encre/75">
+            Atelier Rive-Nord, dix personnes, aucun outil commun, des plans qui circulaient par
+            mail sous le nom « v2_final_OK ». J'ai écrit un petit script Python pour ranger tout ça.
+            Il était moche, mais il a servi tous les jours pendant deux mois. C'est ce stage qui
+            m'a fait changer de voie.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid sm:grid-cols-[5.5rem_1fr] gap-2 sm:gap-8">
+        <p class="text-[15px] text-encre/45 pt-1">2025–2026</p>
+        <div>
+          <h3 class="font-medium text-lg">Première année d'informatique</h3>
+          <p class="mt-2 leading-[1.75] text-encre/75">
+            Je suis arrivé sans aucune base : pas de spé maths, pas de projets perso, rien.
+            L'année a été rude et je ne vais pas prétendre le contraire. J'ai rattrapé
+            l'algorithmique et le C en y passant mes week-ends, et j'ai fini dans le premier tiers.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid sm:grid-cols-[5.5rem_1fr] gap-2 sm:gap-8">
+        <p class="text-[15px] text-bleu pt-1">Aujourd'hui</p>
+        <div>
+          <h3 class="font-medium text-lg">Deuxième année, et une alternance à trouver</h3>
+          <p class="mt-2 leading-[1.75] text-encre/75">
+            Développement web et mobile, architecture logicielle, conception d'interfaces.
+            Je cherche une alternance pour septembre 2027, de préférence sur des outils métier.
+          </p>
+        </div>
+      </div>
+
     </div>
   </section>
 
-</main>
+  <hr class="border-encre/10">
 
-<footer class="border-t border-trait">
-  <div class="max-w-5xl mx-auto px-6 py-8 flex flex-wrap justify-between gap-4 text-sm text-gris">
-    <p>Kyliane Chaperon — 2026</p>
-    <p>Page écrite à la main, sans bibliothèque de composants.</p>
-  </div>
-</footer>
+  <!-- ─────────── PROJETS ─────────── -->
+  <section id="travaux" class="py-20 md:py-28 scroll-mt-8">
+    <h2 class="font-serif italic text-2xl text-encre/55 mb-4">Quatre choses que j'ai fabriquées</h2>
+    <p class="text-encre/70 leading-[1.75] mb-12 max-w-[60ch]">
+      Aucune n'est parfaite. J'ai mis à côté de chacune ce que j'ai appris — souvent en me
+      trompant d'abord.
+    </p>
+
+    <div class="divide-y divide-encre/10 border-t border-b border-encre/10">
+
+      <!-- 1 -->
+      <article class="ligne-projet px-2 -mx-2 py-9">
+        <div class="flex items-baseline justify-between gap-6">
+          <h3 class="font-serif text-2xl">Calepin</h3>
+          <p class="text-[15px] text-encre/45 shrink-0">2026 · seul</p>
+        </div>
+        <p class="mt-3 leading-[1.75] text-encre/80 max-w-[60ch]">
+          Une application mobile pour relever un chantier. On croque un mur au doigt, on tape
+          les cotes, et l'app redresse le croquis en plan propre exportable en PDF ou DXF.
+          L'idée est simplement de supprimer la ressaisie du soir au bureau.
+        </p>
+        <p class="mt-4 leading-[1.75] text-encre/60 font-serif italic max-w-[60ch]">
+          Ce que j'en ai tiré : ma première version corrigeait trop. Elle transformait les courbes
+          voulues en lignes droites, et les deux dessinateurs qui l'ont testée l'ont détestée.
+          J'ai appris à laisser l'utilisateur décider.
+        </p>
+        <p class="mt-4 text-[15px] text-encre/50">React Native · Expo · SQLite · Figma</p>
+      </article>
+
+      <!-- 2 -->
+      <article class="ligne-projet px-2 -mx-2 py-9">
+        <div class="flex items-baseline justify-between gap-6">
+          <h3 class="font-serif text-2xl">Atelier</h3>
+          <p class="text-[15px] text-encre/45 shrink-0">2026 · à trois</p>
+        </div>
+        <p class="mt-3 leading-[1.75] text-encre/80 max-w-[60ch]">
+          Un suivi de projets pour petites agences d'architecture, organisé selon les phases
+          réelles d'un chantier — esquisse, APS, APD, permis, DCE — et non selon des colonnes
+          « à faire / en cours » qui ne veulent rien dire pour eux.
+        </p>
+        <p class="mt-4 leading-[1.75] text-encre/60 font-serif italic max-w-[60ch]">
+          Ce que j'en ai tiré : j'ai fait six entretiens avant de coder. Personne n'a demandé de
+          fonctionnalité. Tout le monde a demandé la même chose — ne plus perdre une version
+          d'un plan. J'avais prévu le mauvais produit.
+        </p>
+        <p class="mt-4 text-[15px] text-encre/50">Laravel · PostgreSQL · Vue 3 · Docker</p>
+      </article>
+
+      <!-- 3 -->
+      <article class="ligne-projet px-2 -mx-2 py-9">
+        <div class="flex items-baseline justify-between gap-6">
+          <h3 class="font-serif text-2xl">Repère</h3>
+          <p class="text-[15px] text-encre/45 shrink-0">2026 · seul</p>
+        </div>
+        <p class="mt-3 leading-[1.75] text-encre/80 max-w-[60ch]">
+          Un guidage pas à pas à l'intérieur d'un bâtiment public. Pas de vue aérienne, pas de
+          plan à déchiffrer : des repères qu'on voit vraiment en marchant, du genre « après la
+          cage d'escalier vitrée, à droite ».
+        </p>
+        <p class="mt-4 leading-[1.75] text-encre/60 font-serif italic max-w-[60ch]">
+          Ce que j'en ai tiré : un camarade malvoyant de ma promo l'a essayé et n'a pas réussi à
+          s'en servir. Le mode contraste renforcé et la lecture vocale sont venus de là, pas de
+          moi.
+        </p>
+        <p class="mt-4 text-[15px] text-encre/50">TypeScript · SVG · D3 · A*</p>
+      </article>
+
+      <!-- 4 -->
+      <article class="ligne-projet px-2 -mx-2 py-9">
+        <div class="flex items-baseline justify-between gap-6">
+          <h3 class="font-serif text-2xl">Trame</h3>
+          <p class="text-[15px] text-encre/45 shrink-0">2025 · seul</p>
+        </div>
+        <p class="mt-3 leading-[1.75] text-encre/80 max-w-[60ch]">
+          On saisit des surfaces et des matériaux, l'outil renvoie une fourchette de coût de gros
+          œuvre décomposée par poste, à partir de données publiques de prix de la construction.
+          Mon premier vrai projet en autonomie.
+        </p>
+        <p class="mt-4 leading-[1.75] text-encre/60 font-serif italic max-w-[60ch]">
+          Ce que j'en ai tiré : j'affichais un chiffre unique, bien net. Un professeur m'a fait
+          remarquer que ça ressemblait à un devis et que quelqu'un finirait par le prendre pour
+          tel. Maintenant l'outil montre une fourchette et ses hypothèses.
+        </p>
+        <p class="mt-4 text-[15px] text-encre/50">Python · FastAPI · Pandas · Chart.js</p>
+      </article>
+
+    </div>
+  </section>
+
+  <hr class="border-encre/10">
+
+  <!-- ─────────── EN CE MOMENT ─────────── -->
+  <section class="py-20 md:py-28">
+    <h2 class="font-serif italic text-2xl text-encre/55 mb-10">En dehors de l'école</h2>
+
+    <div class="space-y-6 text-[1.0625rem] leading-[1.75] text-encre/80 max-w-[60ch]">
+      <p>
+        J'apprends le piano depuis quelques mois, méthodiquement, avec un programme que je me suis
+        écrit moi-même. C'est la première fois que je suis mauvais à quelque chose sans que ça
+        m'inquiète.
+      </p>
+      <p>
+        Je remonte aussi mon anglais, parce que la moitié de ce que je lis est en anglais et que
+        je perds encore trop de temps à relire deux fois.
+      </p>
+      <p>
+        Et je continue de dessiner. Beaucoup de mes maquettes commencent au crayon sur du papier
+        millimétré avant d'arriver dans Figma — vieille habitude dont je ne compte pas me défaire.
+      </p>
+    </div>
+  </section>
+
+  <hr class="border-encre/10">
+
+  <!-- ─────────── CONTACT ─────────── -->
+  <section class="py-20 md:py-28">
+    <h2 class="titre font-serif font-light text-3xl md:text-[2.5rem] leading-[1.2] max-w-[20ch]">
+      Si ce que vous lisez vous parle, écrivez-moi.
+    </h2>
+    <p class="mt-6 leading-[1.75] text-encre/75 max-w-[58ch]">
+      Je cherche une alternance à partir de septembre 2027, sur du développement d'applications
+      métier — bâtiment, immobilier, industrie. Je réponds toujours, même pour dire non.
+    </p>
+
+    <ul class="mt-10 space-y-3 text-lg">
+      <li><a href="mailto:kyliane.chaperon@proton.me" class="lien-souligne text-bleu">kyliane.chaperon@proton.me</a></li>
+      <li><a href="https://github.com/kchaperon" class="lien-souligne">github.com/kchaperon</a></li>
+      <li><a href="https://www.linkedin.com/in/kyliane-chaperon" class="lien-souligne">linkedin.com/in/kyliane-chaperon</a></li>
+    </ul>
+  </section>
+
+  <footer class="border-t border-encre/10 py-10 flex flex-wrap justify-between gap-3 text-[15px] text-encre/45">
+    <p>Nantes, 2026</p>
+    <p class="font-serif italic">Écrit à la main, relu deux fois.</p>
+  </footer>
+
+</div>
 
 </body>
 </html>
